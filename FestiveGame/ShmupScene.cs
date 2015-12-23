@@ -243,7 +243,7 @@ namespace FestiveGame
             // start up enemy spawner
             // theEnemySpawner.Start()
             // test/debug
-            Enemy newEn = new Enemy(bgMelonGetFestive.X + 100, 160, 0);
+            Enemy newEn = new Enemy(bgMelonGetFestive.X + 500, 160, 0);
             Add(newEn);
         }
 

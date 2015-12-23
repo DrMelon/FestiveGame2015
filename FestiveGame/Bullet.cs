@@ -33,7 +33,9 @@ namespace FestiveGame
             }
 
             Graphic.Scroll = 0;
+            Graphic.CenterOrigin();
             Collider = new BoxCollider(Graphic.Width, Graphic.Height, 15);
+            Collider.CenterOrigin();
         }
 
         public override void Update()

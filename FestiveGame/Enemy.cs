@@ -40,11 +40,15 @@ namespace FestiveGame
             if(hp > 0)
             {
                 mySprite.Play("hurt", false);
+                
                 hurttimer = 5;
                 hp -= 1;
                 // ded? set yvel
                 if (hp == 0)
                 {
+                    Sound newSnd = new Sound(Assets.SND_ENEMYHURT);
+                    newSnd.Pitch = Rand.Float(0.8f, 1.1f);
+                    newSnd.Play();
                     yvelfall = -10;
                 }
             }

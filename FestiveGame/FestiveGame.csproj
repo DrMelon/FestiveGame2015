@@ -45,8 +45,12 @@
   <ItemGroup>
     <Compile Include="Assets.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="CameraShaker.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyManager.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="HUDBar.cs" />
+    <Compile Include="ParticleSystem.cs" />
     <Compile Include="PlayerEnt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

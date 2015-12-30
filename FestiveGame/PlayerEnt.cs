@@ -17,6 +17,10 @@ namespace FestiveGame
         public float SpeedMult = 1.0f;
         public Weapon currentWeapon;
 
+        public float Invuln;
+        public HUDBar healthBarRef;
+
+
         public PlayerEnt(float x, float y, Graphic gfx, Collider col, string nm)
         {
             X = x;
@@ -26,7 +30,9 @@ namespace FestiveGame
             {
                 Collider = col;
             }
-            
+
+            Collider = new BoxCollider(gfx.Width, gfx.Height, 5);
+            Collider.CenterOrigin();
             Name = nm;
             currentWeapon = new Weapon(this, 0);
         }
@@ -64,6 +70,42 @@ namespace FestiveGame
                 Y = 220;
             }
             
+            // we get hurt?
+            if(Collider.Overlap(X, Y, 10) && Invuln < 1)
+            {
+                Invuln = 85;
+                healthBarRef.RemoveVal(10);
+                Sound newSnd = new Sound(Assets.SND_HURT);
+                newSnd.Pitch = Rand.Float(0.8f, 1.1f);
+                newSnd.Play();
+                Scene.GetEntity<CameraShaker>().ShakeCamera();
+            }
+
+            if(Invuln > 0)
+            {
+                Invuln -= 1;
+                if(Math.Floor(Global.theGame.Timer) % 8 == 0)
+                {
+                    if(Graphic.Color.A != 0)
+                    {
+                        Graphic.Color.A = 0;
+                    }
+                    else
+                    {
+                        Graphic.Color.A = 1;
+                    }
+                }
+            }
+            else
+            {
+                Graphic.Color.A = 1;
+            }
+
+            if(healthBarRef.Val <= 0)
+            {
+                //die!!
+                RemoveSelf();
+            }
             
         }
 

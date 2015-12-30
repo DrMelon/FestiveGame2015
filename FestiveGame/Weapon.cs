@@ -23,7 +23,7 @@ namespace FestiveGame
             myType = type;
             if(myType == 0)
             {
-                MaxRefire = 15.0f;
+                MaxRefire = 10.0f;
             }
         }
 
@@ -41,6 +41,9 @@ namespace FestiveGame
             {
                 if(myType == 0)
                 {
+                    Otter.Sound newSnd = new Otter.Sound(Assets.SND_SHOOT);
+                    newSnd.Pitch = Otter.Rand.Float(0.85f, 1.05f);
+                    newSnd.Play();
                     myBulletType = 0;
                     //make bullet
                     Bullet newbul = new Bullet(myPly.X, myPly.Y, myBulletType);

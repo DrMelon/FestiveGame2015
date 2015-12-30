@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Otter;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
+
+
 
 // TODO:
 // player ship, bullets
@@ -16,6 +21,7 @@ using Otter;
 
 namespace FestiveGame
 {
+        
     class ShmupScene:Scene
     {
         //Add non-scrolling bg to scene
@@ -40,6 +46,11 @@ namespace FestiveGame
         public PlayerEnt bgMelonGetFestive;
         public Spritemap<string> melonSprite;
 
+        public CameraShaker theCamShaker;
+
+        // HUD stuff
+        // player health bar
+        public HUDBar playerHealthBar;
 
         // Screen flash ent;
         public Entity scrFlash;
@@ -51,6 +62,9 @@ namespace FestiveGame
         // Scene Setup
         public ShmupScene()
         {
+            // Set up cam shaker
+            theCamShaker = new CameraShaker();
+            Add(theCamShaker);
             // Set up BG
             SetUpBG();
 
@@ -77,6 +91,12 @@ namespace FestiveGame
         {
             // Scroll Camera.
             ScrollCamera();
+
+
+            
+            
+
+
             base.Update();
         }
 
@@ -240,17 +260,27 @@ namespace FestiveGame
             
             bgMelonGetFestive.SceneOver = true;
 
+            
+            
+            playerHealthBar = new HUDBar(20, 20, 200, 8, 100, 0.45f, Color.Red * Color.Gray, Color.Yellow, Color.Red, Color.White);
+            playerHealthBar.Layer = 5;
+            bgMelonGetFestive.healthBarRef = playerHealthBar;
+            
+            Add(playerHealthBar);
             // start up enemy spawner
             // theEnemySpawner.Start()
             // test/debug
-            Enemy newEn = new Enemy(bgMelonGetFestive.X + 500, 160, 0);
-            Add(newEn);
+            EnemyManager enMan = new EnemyManager();
+            Add(enMan);
+            enMan.hasStarted = true;
         }
 
         public void FlashScreen(float duration)
         {
             scrFlash.Graphic.Color.A = 1.0f;
             Tween(scrFlash.Graphic.Color, new { A = 0.0f }, duration).Ease(Ease.Linear);
+            Sound newSnd = new Sound(Assets.SND_TRANSFORM);
+            newSnd.Play();
         }
 
     }

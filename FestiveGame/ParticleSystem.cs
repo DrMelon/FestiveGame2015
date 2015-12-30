@@ -75,6 +75,8 @@ namespace FestiveGame
         bool particlesAnimated = false;
         int numParticleFrames = 1;
         int particleAnimLoops = 1;
+        bool particleAnimRand = false;
+        
 
         // Colour changes
         public Color beginColour;
@@ -174,8 +176,17 @@ namespace FestiveGame
                     newParticle.FinalAngle = particleEndRotation;
 
                     newParticle.Animate = particlesAnimated;
+                    
                     newParticle.FrameCount = numParticleFrames;
-                    newParticle.FrameOffset = Rand.Int(0, numParticleFrames - 1);
+                    if(particleAnimRand)
+                    {
+                        newParticle.FrameOffset = Rand.Int(0, numParticleFrames - 1);
+                    }
+                    else
+                    {
+                        newParticle.FrameOffset = 0;
+                    }
+                    
                     newParticle.Loops = particleAnimLoops;
 
                     // Draw particles on top of all but the HUD
@@ -217,9 +228,16 @@ namespace FestiveGame
             oldY = Y;
 
             // clean particles
-            activeLocalParticles.ForEach(x => x.Timer += Game.DeltaTime);
-            activeLocalParticles.RemoveAll(x => x.Timer > x.LifeSpan);
+            //activeLocalParticles.ForEach(x => x.Timer += Game.DeltaTime);
+            
 
+        }
+
+        public override void UpdateFirst()
+        {
+            base.UpdateFirst();
+            activeLocalParticles.ForEach(x => x.Timer += Game.DeltaTime);
+            activeLocalParticles.RemoveAll(x => x.Timer > x.LifeSpan); 
         }
 
         public void Start()

@@ -41,7 +41,7 @@ namespace FestiveGame
 
 
             myParticles = new ParticleSystem(x, y);
-            myParticles.Initialize(6, 2, 360, 0, 1, 45, Assets.GFX_BULLET_PULSE_PARTICLE, 8, 8, 1, true, 7, 0);
+            myParticles.Initialize(6, 2, 0, 360, 1, 20, Assets.GFX_BULLET_PULSE_PARTICLE, 8, 8, 1, true, 6, 0);
             myParticles.particleScroll = 0;
             myParticles.beginColour = Color.White;
             myParticles.endColour = Color.White;

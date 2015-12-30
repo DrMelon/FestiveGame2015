@@ -19,7 +19,9 @@ namespace FestiveGame
 
         public float Invuln;
         public HUDBar healthBarRef;
-
+        public float Dashing; //thru the snow...
+        public Vector2 FreezeStick;
+        public ParticleSystem smokeParticles;
 
         public PlayerEnt(float x, float y, Graphic gfx, Collider col, string nm)
         {
@@ -35,6 +37,21 @@ namespace FestiveGame
             Collider.CenterOrigin();
             Name = nm;
             currentWeapon = new Weapon(this, 0);
+            smokeParticles = new ParticleSystem(X, Y);
+            smokeParticles.Initialize(7, 3, 0, 360, 2, 45, Assets.GFX_SMOKE, 16, 16, 1, true, 8, 0);
+            smokeParticles.particleScroll = 0;
+            smokeParticles.beginColour = Color.White;
+            smokeParticles.endColour = Color.White;
+            smokeParticles.particleStartScale = 1.0f;
+            smokeParticles.particleEndScale = 1.0f;
+            smokeParticles.particleShake = 3;
+        }
+
+        public override void Added()
+        {
+            base.Added();
+
+            Scene.Add(smokeParticles);
         }
 
         public override void Update()
@@ -50,9 +67,23 @@ namespace FestiveGame
             currentWeapon.Update();
             HandleInput();
 
+            smokeParticles.X = X;
+            smokeParticles.Y = Y;
+
             // We fly forward at a fixed speed, which is altered by movement keys.
-            X += BaseSpeed * Global.theController.LeftStick.X;
-            Y += BaseSpeed * Global.theController.LeftStick.Y;
+            if (Dashing <= 0)
+            {
+                smokeParticles.Stop();
+                X += BaseSpeed * Global.theController.LeftStick.X;
+                Y += BaseSpeed * Global.theController.LeftStick.Y;
+            }
+            else
+            {
+                X += BaseSpeed * 5 * FreezeStick.X;
+                Y += BaseSpeed * 5 * FreezeStick.Y;
+                Dashing--;
+            }
+            
             if(X < 60)
             {
                 X = 60;
@@ -115,6 +146,19 @@ namespace FestiveGame
             {
                 // firing!!
                 currentWeapon.Fire();
+            }
+            if(Global.theController.A.Pressed && Dashing <= 0)
+            {
+                // DASH
+                Dashing += 8;
+                FreezeStick.X = Global.theController.LeftStick.X;
+                FreezeStick.Y = Global.theController.LeftStick.Y;
+                if(Global.theController.LeftStick.Neutral)
+                {
+                    FreezeStick.X = 1;
+                    FreezeStick.Y = 0;
+                }
+                smokeParticles.Start();
             }
 
         }

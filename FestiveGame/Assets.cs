@@ -18,6 +18,7 @@ namespace FestiveGame
         public const string GFX_BULLET_PULSE = ASSETPATH + "pulse.png";
         public const string GFX_BULLET_PULSE_PARTICLE = ASSETPATH + "pulse_spark.png";
         public const string GFX_PRESENT_O = ASSETPATH + "present_o.png";
+        public const string GFX_SMOKE = ASSETPATH + "smoke.png";
 
         public const string SND_SHOOT = ASSETPATH + "pew.wav";
         public const string SND_TRANSFORM = ASSETPATH + "transform.wav";
